@@ -1,14 +1,64 @@
 [
-  { "src": "images/street-01.jpg", "gallery": "street", "caption": "Tbilisi, Georgia" },
-  { "src": "images/street-02.jpg", "gallery": "street", "caption": "City geometry" },
-  { "src": "images/street-03.jpg", "gallery": "street", "caption": "Morning light" },
-  { "src": "images/people-01.jpg", "gallery": "people", "caption": "Cuba portrait" },
-  { "src": "images/people-02.jpg", "gallery": "people", "caption": "Monk's life" },
-  { "src": "images/people-03.jpg", "gallery": "people", "caption": "Window light" },
-  { "src": "images/travel-01.jpg", "gallery": "travel", "caption": "India" },
-  { "src": "images/travel-02.jpg", "gallery": "travel", "caption": "Highlands, Scotland" },
-  { "src": "images/travel-03.jpg", "gallery": "travel", "caption": "San Miguel de Allende" },
-  { "src": "images/projects-01.jpg", "gallery": "projects", "caption": "Polar bears, Svalbard" },
-  { "src": "images/projects-02.jpg", "gallery": "projects", "caption": "Ice, series I" },
-  { "src": "images/projects-03.jpg", "gallery": "projects", "caption": "Monk's life, series I" }
+  
+  {
+    "src": "images/At home,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "At home"
+  },
+  {
+    "src": "images/Devotion 1,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Devotion 1"
+  },
+  {
+    "src": "images/Devotion 2,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Devotion 2"
+  },
+  {
+    "src": "images/Evening stroll,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Evening stroll"
+  },
+  {
+    "src": "images/No shopping,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "No shopping"
+  },
+  {
+    "src": "images/The master,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "The master"
+  },
+  {
+    "src": "images/Untitled 1,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Untitled 1"
+  },
+  {
+    "src": "images/Untitled 2,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Untitled 2"
+  },
+  {
+    "src": "images/Untitled 3,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Untitled 3"
+  },
+  {
+    "src": "images/Waiting waitress,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Waiting waitress"
+  },
+  {
+    "src": "images/Wet,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Wet"
+  },
+  {
+    "src": "images/Whatsup,Tbilisi, Georgia, 2016.jpg",
+    "gallery": "street",
+    "caption": "Whatsup"
+  }
+
 ]
