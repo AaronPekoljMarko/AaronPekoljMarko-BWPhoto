@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Aaron Marko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0a0a0a; --white: #fff; --mid: #888;
+      --rule: #e8e8e8; --bg: #f7f7f7; --accent: #0a0a0a;
+    }
+    body { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 13px;
+           background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* ── Login screen ── */
+    #login-screen {
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .login-box {
+      background: var(--white); border: 1px solid var(--rule);
+      padding: 2.5rem 3rem; width: 320px;
+    }
+    .login-box h1 {
+      font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+      margin-bottom: 1.75rem; color: var(--mid);
+    }
+    .login-box input {
+      width: 100%; border: none; border-bottom: 1px solid var(--rule);
+      padding: 0.5rem 0; font-family: inherit; font-size: 13px;
+      background: none; outline: none; margin-bottom: 1.5rem;
+    }
+    .login-box input:focus { border-color: var(--ink); }
+    .login-error { color: #c00; font-size: 11px; letter-spacing: 0.1em;
+                   margin-top: -1rem; margin-bottom: 1rem; display: none; }
+    .btn {
+      background: var(--ink); color: var(--white); border: none;
+      padding: 0.75rem 2rem; font-family: inherit; font-size: 10px;
+      letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.8; }
+    .btn-outline {
+      background: none; color: var(--ink); border: 1px solid var(--ink);
+    }
+    .btn-outline:hover { background: var(--ink); color: var(--white); opacity: 1; }
+    .btn-danger {
+      background: none; color: #c00; border: 1px solid #c00;
+      padding: 0.35rem 0.75rem; font-size: 9px;
+    }
+    .btn-danger:hover { background: #c00; color: white; opacity: 1; }
+
+    /* ── Admin shell ── */
+    #admin-shell { display: none; }
+    header {
+      background: var(--white); border-bottom: 1px solid var(--rule);
+      padding: 0 2rem; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .header-logo { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+    .header-right { display: flex; align-items: center; gap: 1.5rem; }
+    .header-right span { font-size: 10px; letter-spacing: 0.15em;
+                          text-transform: uppercase; color: var(--mid); }
+
+    main { max-width: 960px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+    /* ── Add photo form ── */
+    .card {
+      background: var(--white); border: 1px solid var(--rule);
+      padding: 2rem; margin-bottom: 2rem;
+    }
+    .card h2 {
+      font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 1.5rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: end; }
+
+    /* Drop zone */
+    .dropzone {
+      border: 1px dashed var(--rule); padding: 1.25rem;
+      text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .dropzone.drag-over { border-color: var(--ink); background: #f0f0f0; }
+    .dropzone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .dropzone p { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+                  color: var(--mid); pointer-events: none; }
+    .dropzone .file-name { font-size: 11px; color: var(--ink); margin-top: 0.25rem; }
+
+    .field label {
+      display: block; font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--mid); margin-bottom: 0.4rem;
+    }
+    .field input, .field select {
+      width: 100%; border: none; border-bottom: 1px solid var(--rule);
+      padding: 0.5rem 0; font-family: inherit; font-size: 13px;
+      background: none; outline: none; appearance: none;
+    }
+    .field input:focus, .field select:focus { border-color: var(--ink); }
+
+    /* ── Photo list ── */
+    .gallery-section { margin-bottom: 2.5rem; }
+    .gallery-section h3 {
+      font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--mid); padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--rule); margin-bottom: 1rem;
+    }
+    .photo-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .photo-row {
+      background: var(--white); border: 1px solid var(--rule);
+      display: grid; grid-template-columns: 56px 1fr 1fr auto;
+      gap: 1rem; align-items: center; padding: 0.5rem 1rem;
+    }
+    .photo-row img {
+      width: 48px; height: 36px; object-fit: cover; filter: grayscale(100%); display: block;
+    }
+    .photo-row .photo-src { font-size: 11px; color: var(--mid); }
+    .photo-row .photo-cap { font-size: 12px; }
+
+    /* ── Download bar ── */
+    .download-bar {
+      position: sticky; bottom: 0;
+      background: var(--ink); color: var(--white);
+      padding: 1rem 2rem; display: none;
+      align-items: center; justify-content: space-between;
+    }
+    .download-bar.visible { display: flex; }
+    .download-bar p { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; }
+    .download-bar .btn { background: var(--white); color: var(--ink); }
+
+    .notice {
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--mid); margin-top: 0.5rem;
+    }
+    .empty { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+             color: #ccc; padding: 1rem 0; }
+  </style>
+</head>
+<body>
+
+<!-- ── Login ────────────────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1>Admin — Aaron Marko</h1>
+    <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password" />
+    <p class="login-error" id="login-error">Incorrect password</p>
+    <button class="btn" id="login-btn">Enter</button>
+  </div>
+</div>
+
+<!-- ── Admin shell ───────────────────────────────────────────── -->
+<div id="admin-shell">
+
+  <header>
+    <div class="header-logo">Admin — Aaron Marko</div>
+    <div class="header-right">
+      <span>Photo Manager</span>
+      <button class="btn btn-outline" id="logout-btn">Log out</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Add photo -->
+    <div class="card">
+      <h2>Add a photo</h2>
+      <div class="form-row">
+
+        <div class="field">
+          <label>Image file</label>
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="file-input" accept="image/*" />
+            <p>Drop or click to select</p>
+            <div class="file-name" id="file-name"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Caption</label>
+          <input type="text" id="new-caption" placeholder="e.g. Havana, 2024" />
+        </div>
+
+        <div class="field">
+          <label>Gallery</label>
+          <select id="new-gallery">
+            <option value="street">Street Scenes</option>
+            <option value="people">People</option>
+            <option value="travel">Travel / Places</option>
+            <option value="projects">Projects</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn" id="add-btn">Add</button>
+        </div>
+
+      </div>
+      <p class="notice" id="add-notice"></p>
+    </div>
+
+    <!-- Load existing photos.json -->
+    <div class="card">
+      <h2>Load your current photos.json</h2>
+      <p style="font-size:12px;color:var(--mid);margin-bottom:1rem;">
+        Upload your existing <code>photos.json</code> to manage your current photos.
+        On first use you can skip this — start adding photos directly above.
+      </p>
+      <input type="file" id="json-upload" accept=".json" style="font-size:12px;" />
+    </div>
+
+    <!-- Photo list by gallery -->
+    <div id="photo-list-wrap"></div>
+
+  </main>
+
+  <!-- Sticky download bar -->
+  <div class="download-bar" id="download-bar">
+    <p>You have unsaved changes — download your updated photos.json and upload it to GitHub</p>
+    <button class="btn" id="download-btn">Download photos.json</button>
+  </div>
+
+</div>
+
+<script>
+// ── Password ─────────────────────────────────────────────────────────────
+// To change the password: edit the string below
+const PASSWORD = 'aaronmarko2025';
+
+const loginScreen = document.getElementById('login-screen');
+const adminShell  = document.getElementById('admin-shell');
+const loginError  = document.getElementById('login-error');
+
+function tryLogin() {
+  const val = document.getElementById('pw-input').value;
+  if (val === PASSWORD) {
+    loginScreen.style.display = 'none';
+    adminShell.style.display  = 'block';
+    sessionStorage.setItem('am_auth', '1');
+    renderList();
+  } else {
+    loginError.style.display = 'block';
+    document.getElementById('pw-input').value = '';
+  }
+}
+
+// Stay logged in within the tab
+if (sessionStorage.getItem('am_auth') === '1') {
+  loginScreen.style.display = 'none';
+  adminShell.style.display  = 'block';
+}
+
+document.getElementById('login-btn').addEventListener('click', tryLogin);
+document.getElementById('pw-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') tryLogin();
+});
+document.getElementById('logout-btn').addEventListener('click', () => {
+  sessionStorage.removeItem('am_auth');
+  location.reload();
+});
+
+// ── Photo data ────────────────────────────────────────────────────────────
+let photos = [];
+let dirty  = false;
+
+function markDirty() {
+  dirty = true;
+  document.getElementById('download-bar').classList.add('visible');
+}
+
+// ── Load existing photos.json ─────────────────────────────────────────────
+document.getElementById('json-upload').addEventListener('change', function () {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      photos = JSON.parse(e.target.result);
+      renderList();
+      this.value = '';
+      document.getElementById('add-notice').textContent = 'Loaded ' + photos.length + ' photos.';
+    } catch {
+      alert('Could not read photos.json — make sure it is the correct file.');
+    }
+  };
+  reader.readAsText(file);
+});
+
+// ── Dropzone ──────────────────────────────────────────────────────────────
+const dropzone  = document.getElementById('dropzone');
+const fileInput = document.getElementById('file-input');
+const fileLabel = document.getElementById('file-name');
+let   selectedFile = null;
+
+fileInput.addEventListener('change', () => {
+  selectedFile = fileInput.files[0] || null;
+  fileLabel.textContent = selectedFile ? selectedFile.name : '';
+});
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('drag-over');
+  selectedFile = e.dataTransfer.files[0] || null;
+  fileLabel.textContent = selectedFile ? selectedFile.name : '';
+});
+
+// ── Add photo ─────────────────────────────────────────────────────────────
+document.getElementById('add-btn').addEventListener('click', () => {
+  const caption = document.getElementById('new-caption').value.trim();
+  const gallery = document.getElementById('new-gallery').value;
+  const notice  = document.getElementById('add-notice');
+
+  if (!selectedFile) { notice.textContent = 'Please select an image file.'; return; }
+  if (!caption)       { notice.textContent = 'Please enter a caption.'; return; }
+
+  const src = 'images/' + selectedFile.name;
+
+  // Check for duplicate
+  if (photos.find(p => p.src === src)) {
+    notice.textContent = 'A photo with this filename already exists.';
+    return;
+  }
+
+  photos.push({ src, gallery, caption });
+  markDirty();
+  renderList();
+
+  // Reset form
+  selectedFile = null;
+  fileLabel.textContent = '';
+  fileInput.value = '';
+  document.getElementById('new-caption').value = '';
+  notice.textContent = '✓ Added — remember to also upload the image file to your GitHub images/ folder.';
+});
+
+// ── Remove photo ──────────────────────────────────────────────────────────
+function removePhoto(src) {
+  if (!confirm('Remove "' + src + '" from the list?\n\nThis only removes it from photos.json — the image file stays in your GitHub images/ folder.')) return;
+  photos = photos.filter(p => p.src !== src);
+  markDirty();
+  renderList();
+}
+
+// ── Render list ───────────────────────────────────────────────────────────
+const galleries = [
+  { key: 'street',   label: 'Street Scenes' },
+  { key: 'people',   label: 'People' },
+  { key: 'travel',   label: 'Travel / Places' },
+  { key: 'projects', label: 'Projects' },
+];
+
+function renderList() {
+  const wrap = document.getElementById('photo-list-wrap');
+  wrap.innerHTML = '';
+
+  galleries.forEach(({ key, label }) => {
+    const items = photos.filter(p => p.gallery === key);
+    const sec = document.createElement('div');
+    sec.className = 'gallery-section';
+    sec.innerHTML = `<h3>${label} <span style="font-weight:400;">(${items.length})</span></h3>`;
+
+    if (items.length === 0) {
+      sec.innerHTML += '<p class="empty">No photos yet.</p>';
+    } else {
+      const list = document.createElement('div');
+      list.className = 'photo-list';
+      items.forEach(p => {
+        const row = document.createElement('div');
+        row.className = 'photo-row';
+        row.innerHTML = `
+          <img src="${p.src}" alt="${p.caption}" onerror="this.style.background='#eee';this.removeAttribute('src')" />
+          <div class="photo-src">${p.src}</div>
+          <div class="photo-cap">${p.caption}</div>
+          <button class="btn btn-danger" data-src="${p.src}">Remove</button>
+        `;
+        row.querySelector('.btn-danger').addEventListener('click', () => removePhoto(p.src));
+        list.appendChild(row);
+      });
+      sec.appendChild(list);
+    }
+    wrap.appendChild(sec);
+  });
+}
+
+// ── Download photos.json ──────────────────────────────────────────────────
+document.getElementById('download-btn').addEventListener('click', () => {
+  const json = JSON.stringify(photos, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'photos.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  dirty = false;
+  document.getElementById('download-bar').classList.remove('visible');
+  document.getElementById('add-notice').textContent = '✓ Downloaded. Now upload photos.json to your GitHub repository.';
+});
+
+// Warn before leaving with unsaved changes
+window.addEventListener('beforeunload', e => {
+  if (dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
+// Initial render
+renderList();
+</script>
+
+</body>
+</html>

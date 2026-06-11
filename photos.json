@@ -1,0 +1,14 @@
+[
+  { "src": "images/street-01.jpg", "gallery": "street", "caption": "Tbilisi, Georgia" },
+  { "src": "images/street-02.jpg", "gallery": "street", "caption": "City geometry" },
+  { "src": "images/street-03.jpg", "gallery": "street", "caption": "Morning light" },
+  { "src": "images/people-01.jpg", "gallery": "people", "caption": "Cuba portrait" },
+  { "src": "images/people-02.jpg", "gallery": "people", "caption": "Monk's life" },
+  { "src": "images/people-03.jpg", "gallery": "people", "caption": "Window light" },
+  { "src": "images/travel-01.jpg", "gallery": "travel", "caption": "India" },
+  { "src": "images/travel-02.jpg", "gallery": "travel", "caption": "Highlands, Scotland" },
+  { "src": "images/travel-03.jpg", "gallery": "travel", "caption": "San Miguel de Allende" },
+  { "src": "images/projects-01.jpg", "gallery": "projects", "caption": "Polar bears, Svalbard" },
+  { "src": "images/projects-02.jpg", "gallery": "projects", "caption": "Ice, series I" },
+  { "src": "images/projects-03.jpg", "gallery": "projects", "caption": "Monk's life, series I" }
+]

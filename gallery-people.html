@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>People — Aaron Marko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-gallery="people">
+
+<nav>
+  <div class="nav-logo"><a href="index.html">Aaron Marko</a></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="galleries.html">Galleries</a></li>
+    <li><a href="gallery-street.html">Street</a></li>
+    <li><a href="gallery-people.html">People</a></li>
+    <li><a href="gallery-travel.html">Travel</a></li>
+    <li><a href="gallery-projects.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="galleries.html">Galleries</a></li>
+    <li><a href="gallery-street.html">Street</a></li>
+    <li><a href="gallery-people.html">People</a></li>
+    <li><a href="gallery-travel.html">Travel</a></li>
+    <li><a href="gallery-projects.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</div>
+
+<div class="page">
+
+  <div class="section-head">
+    <h1>People</h1>
+    <span class="sub">Faces &amp; moments</span>
+  </div>
+  <div class="rule"></div>
+
+  <!-- Photos load automatically from photos.json -->
+  <div class="gallery-grid"></div>
+
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lightbox-close">Close</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous">&#8592;</button>
+    <img src="" alt="" />
+    <p class="lightbox-caption"></p>
+    <button class="lightbox-nav lightbox-next" aria-label="Next">&#8594;</button>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Aaron Marko Photography</div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/aaron.marko" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://facebook.com/aaron.marko.3" target="_blank" rel="noopener">Facebook</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div>&copy; 2025 Aaron Marko</div>
+  </footer>
+
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

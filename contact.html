@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Aaron Marko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><a href="index.html">Aaron Marko</a></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="galleries.html">Galleries</a></li>
+    <li><a href="gallery-street.html">Street</a></li>
+    <li><a href="gallery-people.html">People</a></li>
+    <li><a href="gallery-travel.html">Travel</a></li>
+    <li><a href="gallery-projects.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="galleries.html">Galleries</a></li>
+    <li><a href="gallery-street.html">Street</a></li>
+    <li><a href="gallery-people.html">People</a></li>
+    <li><a href="gallery-travel.html">Travel</a></li>
+    <li><a href="gallery-projects.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</div>
+
+<div class="page">
+
+  <div class="contact-wrap">
+
+    <!-- Left: atmospheric photo -->
+    <div class="contact-img">
+      <!-- REPLACE with a photo of your choice -->
+      <img src="https://images.unsplash.com/photo-1519981593452-666cf05acbcf?w=1200&auto=format&fit=crop&q=80"
+           alt="Photography" />
+    </div>
+
+    <!-- Right: form -->
+    <div class="contact-form-wrap">
+      <div class="eyebrow">Get in touch</div>
+      <h1>Let's talk<br/>about your project.</h1>
+
+      <form id="contact-form" action="#" method="post" novalidate>
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject" name="subject">
+            <option value="">Select a topic</option>
+            <option value="prints">Print inquiry</option>
+            <option value="licensing">Image licensing</option>
+            <option value="commission">Commission work</option>
+            <option value="workshops">Workshops</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell me about your project or inquiry…" required></textarea>
+        </div>
+
+        <button class="form-submit" type="submit">Send message</button>
+
+        <p class="form-success" role="alert">
+          Thank you — I'll be in touch soon.
+        </p>
+
+      </form>
+
+      <!--
+        TO MAKE THIS FORM SEND REAL EMAILS:
+        Option A — Formspree (free, easy):
+          1. Go to formspree.io and create a free account
+          2. Create a new form, get your endpoint URL
+          3. Change the <form action="#"> to <form action="https://formspree.io/f/YOUR_ID">
+          4. Remove the novalidate attribute
+          Done — submissions go straight to your email.
+
+        Option B — Netlify Forms (if hosting on Netlify):
+          Add data-netlify="true" to the <form> tag.
+          Netlify handles the rest automatically.
+      -->
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-logo">Aaron Marko Photography</div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/aaron.marko" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://facebook.com/aaron.marko.3" target="_blank" rel="noopener">Facebook</a>
+    </div>
+    <div>&copy; 2025 Aaron Marko</div>
+  </footer>
+
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
