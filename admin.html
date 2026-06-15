@@ -142,6 +142,33 @@
     }
     .empty { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
              color: #ccc; padding: 1rem 0; }
+
+    /* ── Drag to reorder ── */
+    .photo-row {
+      cursor: grab;
+      transition: box-shadow 0.15s, opacity 0.15s;
+      user-select: none;
+    }
+    .photo-row:active { cursor: grabbing; }
+    .photo-row.dragging {
+      opacity: 0.4;
+      box-shadow: none;
+    }
+    .photo-row.drag-over-top {
+      border-top: 2px solid var(--ink);
+    }
+    .photo-row.drag-over-bottom {
+      border-bottom: 2px solid var(--ink);
+    }
+    .drag-handle {
+      color: #ccc; font-size: 14px; cursor: grab;
+      padding: 0 4px; flex-shrink: 0;
+    }
+    .photo-row { display: grid; grid-template-columns: 20px 56px 1fr 1fr auto; }
+    .reorder-hint {
+      font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: #bbb; margin-bottom: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -350,7 +377,7 @@ function removePhoto(src) {
   renderList();
 }
 
-// ── Render list ───────────────────────────────────────────────────────────
+// ── Render list with drag-to-reorder ─────────────────────────────────────
 const galleries = [
   { key: 'street',   label: 'Street Scenes' },
   { key: 'people',   label: 'People' },
@@ -371,20 +398,76 @@ function renderList() {
     if (items.length === 0) {
       sec.innerHTML += '<p class="empty">No photos yet.</p>';
     } else {
+      sec.innerHTML += '<p class="reorder-hint">Drag rows to reorder</p>';
       const list = document.createElement('div');
       list.className = 'photo-list';
+
       items.forEach(p => {
         const row = document.createElement('div');
         row.className = 'photo-row';
+        row.draggable = true;
+        row.dataset.src = p.src;
         row.innerHTML = `
+          <div class="drag-handle" title="Drag to reorder">⠿</div>
           <img src="${p.src}" alt="${p.caption}" onerror="this.style.background='#eee';this.removeAttribute('src')" />
           <div class="photo-src">${p.src}</div>
           <div class="photo-cap">${p.caption}</div>
-          <button class="btn btn-danger" data-src="${p.src}">Remove</button>
+          <button class="btn btn-danger">Remove</button>
         `;
-        row.querySelector('.btn-danger').addEventListener('click', () => removePhoto(p.src));
+        row.querySelector('.btn-danger').addEventListener('click', (e) => {
+          e.stopPropagation();
+          removePhoto(p.src);
+        });
         list.appendChild(row);
       });
+
+      // ── Drag logic ──
+      let dragSrc = null;
+
+      list.querySelectorAll('.photo-row').forEach(row => {
+        row.addEventListener('dragstart', e => {
+          dragSrc = row;
+          setTimeout(() => row.classList.add('dragging'), 0);
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        row.addEventListener('dragend', () => {
+          row.classList.remove('dragging');
+          list.querySelectorAll('.photo-row').forEach(r => {
+            r.classList.remove('drag-over-top', 'drag-over-bottom');
+          });
+          // Sync photos array to new DOM order
+          const newOrder = [...list.querySelectorAll('.photo-row')].map(r => r.dataset.src);
+          photos = [
+            ...newOrder.map(src => photos.find(p => p.src === src)).filter(Boolean),
+            ...photos.filter(p => p.gallery !== key)
+          ];
+          markDirty();
+        });
+        row.addEventListener('dragover', e => {
+          e.preventDefault();
+          if (row === dragSrc) return;
+          const rect = row.getBoundingClientRect();
+          const mid  = rect.top + rect.height / 2;
+          list.querySelectorAll('.photo-row').forEach(r => r.classList.remove('drag-over-top', 'drag-over-bottom'));
+          row.classList.add(e.clientY < mid ? 'drag-over-top' : 'drag-over-bottom');
+        });
+        row.addEventListener('dragleave', () => {
+          row.classList.remove('drag-over-top', 'drag-over-bottom');
+        });
+        row.addEventListener('drop', e => {
+          e.preventDefault();
+          if (row === dragSrc) return;
+          const rect = row.getBoundingClientRect();
+          const mid  = rect.top + rect.height / 2;
+          if (e.clientY < mid) {
+            list.insertBefore(dragSrc, row);
+          } else {
+            list.insertBefore(dragSrc, row.nextSibling);
+          }
+          row.classList.remove('drag-over-top', 'drag-over-bottom');
+        });
+      });
+
       sec.appendChild(list);
     }
     wrap.appendChild(sec);
